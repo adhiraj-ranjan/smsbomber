@@ -3,7 +3,7 @@ import telegram.ext
 from time import sleep
 from os import environ
 
-token = envrion['token']
+token = environ['token']
 
 class Mainscript:
     def __init__(self, number):
