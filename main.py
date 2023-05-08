@@ -1,9 +1,9 @@
 import requests
-import telegram.ext
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from time import sleep
 from os import environ
 
-token = environ['token']
+TOKEN = environ['token']
 
 class Mainscript:
     def __init__(self, number):
@@ -217,40 +217,44 @@ def bomb__(pnumber, count, c=0):
             else:
                 return
 
-def start(update, context):
-    update.message.reply_text("Send a phone number with no. of messages to send!\nEx - 8298XXXXXX 10\nhere 10 is number of messages to send")
+async def start(update, context):
+    await update.message.reply_text("Send a phone number with no. of messages to send!\nEx - 8298XXXXXX 10\nhere 10 is number of messages to send")
 
-def bomb(update, cmd):
-    update.message.reply_text(f"Sending {cmd[1]} messages to {cmd[0]}!") 
+async def bomb(update, cmd):
+    await update.message.reply_text(f"Sending {cmd[1]} messages to {cmd[0]}!") 
     bomb__(cmd[0], int(cmd[1]))
-    update.message.reply_text(f"Sent {cmd[1]} messages!")
+    await update.message.reply_text(f"Sent {cmd[1]} messages!")
     
 no_auth_limit = 50
-def reply(update, context):
+async def reply(update, context):
     cmd = update.message.text.split()
     try:
         if len(str(int(cmd[0]))) == 10:
             if int(cmd[1]) <= no_auth_limit or update.message.from_user['id'] == 1234046323:
-                bomb(update, cmd)
+                await bomb(update, cmd)
             else:
                 if 2 < len(cmd) and cmd[2] == "/auth":
-                    bomb(update, cmd)
+                    await bomb(update, cmd)
                 else:
-                    update.message.reply_text(f"you are NOT_AUTHORIZED to send messages above {no_auth_limit} at once!\nContact @adhirajranjan for AUTHORIZATION")
+                    await pdate.message.reply_text(f"you are NOT_AUTHORIZED to send messages above {no_auth_limit} at once!\nContact @adhirajranjan for AUTHORIZATION")
         else:
-            update.message.reply_text("It's not a VALID phone number!")
+            await update.message.reply_text("It's not a VALID phone number!")
     except Exception as e:
         print(e)
-        update.message.reply_text("It's not a VALID command!")
-
-updater = telegram.ext.Updater(token, use_context=True)
-disp = updater.dispatcher
-
-disp.add_handler(telegram.ext.CommandHandler("start", start))
-disp.add_handler(telegram.ext.MessageHandler(telegram.ext.Filters.text, reply))
-
-if __name__=="__main__":
-    updater.start_polling()
-    updater.idle()         
+        await update.message.reply_text("It's not a VALID command!")
     
-  
+# Log errors
+async def error(update, context):
+    print(f'Update {update} caused error {context.error}')
+
+# Run the program
+if __name__ == '__main__':
+    app = Application.builder().token(TOKEN).build()
+
+    # Commands
+    app.add_handler(CommandHandler('start', start))
+    app.add_handler(MessageHandler(filters.TEXT, reply))
+    # Log all errors
+    app.add_error_handler(error)
+
+    app.run_polling()
