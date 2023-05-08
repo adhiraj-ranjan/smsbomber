@@ -1,9 +1,9 @@
 import requests
 import telegram.ext
 from time import sleep
-import os
+from os import environ
 
-token = "YOUR BOT TOKEN"
+token = envrion['token']
 
 class Mainscript:
     def __init__(self, number):
