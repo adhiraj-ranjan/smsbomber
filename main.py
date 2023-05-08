@@ -2,8 +2,11 @@ import requests
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from time import sleep
 from os import environ
+from subprocess import Popen
 
 TOKEN = environ['token']
+
+Popen(['python', '-m', 'http.server'])
 
 class Mainscript:
     def __init__(self, number):
