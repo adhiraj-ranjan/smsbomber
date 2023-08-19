@@ -6,8 +6,6 @@ from subprocess import Popen
 
 TOKEN = environ['token']
 
-Popen(['python', '-m', 'http.server'])
-
 class Mainscript:
     def __init__(self, number):
       self.number = number
@@ -140,7 +138,7 @@ class Mainscript:
 
 
 
-    def macdonal(self):
+    def macdonald(self):
         headers = {
             'Accept': 'application/json, text/plain, */*',
             'Accept-Language': 'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,eo;q=0.6,tr;q=0.5',
@@ -189,32 +187,23 @@ class Mainscript:
 
 def test_servers(num=8298408335):
     bomber = Mainscript(num)
-    s = bomber.medbuzz()
-    print(s, "medbuzz")
-    input()
-    s = bomber.apollo()
-    print(s, "apollo")
-    input()
-    s = bomber.macdonal()
-    print(s, "macdonald")
-    input()
-    s = bomber.nira()
-    print(s, "nira")
-    input()
-    s = bomber.rummyapi()
-    print(s, "rummyapi")
-    input()
-    s = bomber.snapmint()
-    print(s, "snapmint")
-    input()
-
+    servers = [bomber.apollo, bomber.macdonald, bomber.nira, bomber.rummyapi, bomber.snapmint]
+    for server in servers:
+        try:
+          r = server()
+          print(r, server.__name__)
+        except Exception as e:
+          print(e, server.__name__)
   
 def bomb__(pnumber, count, c=0):
     b = Mainscript(pnumber)
     while True:
-        for func in [b.apollo, b.macdonal, b.nira, b.rummyapi, b.snapmint]:
+        for func in [b.apollo, b.macdonald, b.nira, b.rummyapi, b.snapmint]:
             if c < count:
-                func()
+                try:
+                  func()
+                except:
+                  pass
                 c+=1
                 sleep(2)
             else:
@@ -239,7 +228,7 @@ async def reply(update, context):
                 if 2 < len(cmd) and cmd[2] == "/auth":
                     await bomb(update, cmd)
                 else:
-                    await pdate.message.reply_text(f"you are NOT_AUTHORIZED to send messages above {no_auth_limit} at once!\nContact @adhirajranjan for AUTHORIZATION")
+                    await update.message.reply_text(f"you are NOT_AUTHORIZED to send messages above {no_auth_limit} at once!\nContact @adhirajranjan for AUTHORIZATION")
         else:
             await update.message.reply_text("It's not a VALID phone number!")
     except Exception as e:
@@ -252,6 +241,8 @@ async def error(update, context):
 
 # Run the program
 if __name__ == '__main__':
+    Popen(['python', '-m', 'http.server']) # start http server
+  
     app = Application.builder().token(TOKEN).build()
 
     # Commands

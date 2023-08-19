@@ -4,7 +4,7 @@ Python made open source telegram sms bomber bot
 Note - Runs on **`python3`**
 
 ### Usage
-You can use the Bot here => https://t.me/theSmsPierce_bot
+You can use the Bot here => https://t.me/truebomber_bot
 
 And its source code is provided.
 
