@@ -1,10 +1,12 @@
 # smsbomber
 Python made open source telegram sms bomber bot
 
+⚠️ NOT MAINTAINED ANYMORE ⚠️
+
 Note - Runs on **`python3`**
 
 ### Usage
-You can use the Bot here => https://t.me/truebomber_bot
+You can use the Bot here => https://t.me/-
 
 And its source code is provided.
 
